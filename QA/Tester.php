@@ -1,7 +1,7 @@
 <?php
 
-require_once '../DAL/Connection.php';
-require_once '../Server/Director/DirectorController.php';
+require_once '..\\DAL\Connection.php';
+require_once '..\\Server\Director\DirectorController.php';
 
 
 

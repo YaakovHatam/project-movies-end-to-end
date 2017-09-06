@@ -1,6 +1,6 @@
 <?php
 
-require_once "Director.php";
+require_once "\\..\\Director\Director.php";
 // the controller will maintain the logic of the model, 
 // the CRUD opeartions for example.
 
@@ -40,7 +40,6 @@ class IController
             else
             {
                 Notify("No data returned from GetAll, tabls name:  " . $this->tblName );
-
             }
 
         }

@@ -1,7 +1,7 @@
 <?php
 
-//require_once "../BaseClass/IController.php";
-require_once "IController.php";
+require_once "\\..\\BaseClass\IController.php";
+//require_once "IController.php";
 
 // the controller maintains the logic of the model (CRUD opeartions for example)
 
