@@ -1,6 +1,6 @@
 <?php
 
-class Movie{
+class MovieModel{
 
     private $id;
     private $name;

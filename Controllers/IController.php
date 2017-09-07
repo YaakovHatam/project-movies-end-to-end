@@ -1,6 +1,6 @@
 <?php
 
-require_once "\\..\\Director\Director.php";
+require_once "\\..\\Models\DirectorModel.php";
 // the controller will maintain the logic of the model, 
 // the CRUD opeartions for example.
 
@@ -16,7 +16,6 @@ class IController
             $this->dbHandler = $dbHandler;
             $this->tblName = $tblName;
             $this->modelClassName = $modelClassName ;
-
         }
         else
         {
@@ -24,9 +23,16 @@ class IController
             $errorMsg = "Controller __construct got a faulty dbHandler: " . dbHandler . "or table name: " . $tblName;
             Notify::log( $errorMsg );
             throw new Exception( $errorMsg );
+            
         }      
     }
 
+    /*
+    public function Read()
+    {
+
+    }
+    */
     public function getAll( ) 
     {
         try
@@ -34,7 +40,7 @@ class IController
             $statement = $this->dbHandler->runQuery( "SELECT * FROM " . $this->tblName );
             if(  $statement )
             {                
-                $allObjArr = $statement->fetchAll( PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, $this->modelClassName );
+                $allObjArr = $statement->fetchAll( PDO::FETCH_CLASS , $this->modelClassName );
                 return $allObjArr;
             }
             else
@@ -50,15 +56,30 @@ class IController
         }
     }
 
-    public function Create( $query )
+    public function Create( $modelObj) //Insert
     {
+        $model = $modelObj.jsonSerialize(); 
+        $keyStr = "(";
+        $valueStr = " VALUES(";
+        
+        foreach( $model as $key => $value ) 
+        {
+            $keyStr .= $key . ", ";
+            $valueStr .= "'" . $value . "',";    
+        }
 
+        $keyStr = rtrim($keyStr,", ") . ")" ;
+        $valueStr = rtrim( $valueStr, ", ") . ")" ;
+        
+
+        $sqlQuery = "INSERT INTO " . $this->tblName . $keyStr . $valueStr .";";
+
+        return $this->dbHandlerr->runQuery( $sqlQuery );
     }
 
-    public function Read()
-    {
+   
 
-    }
+    
 
     
 
@@ -72,29 +93,6 @@ class IController
 
     }
 
-
-
-   
-/*
-    public function insert( $tblName, $obj) 
-    {
-        $keyStr = "(";
-        $valueStr = " VALUES(";
-        
-        foreach( $obj as $key => $value ) 
-        {
-            $keyStr .= $key . ", ";
-            $valueStr .= "'" . $value . "',";    
-        }
-
-        $keyStr = rtrim($keyStr,", ") . ")" ;
-        $valueStr = rtrim( $valueStr, ", ") . ")" ;
-        
-
-        $sqlQuery = "INSERT INTO " . $tblName . $keyStr . $valueStr .";";
-
-        return $this->dbHandlerr->runQuery( $sqlQuery );
-    }*/
 }
 
 

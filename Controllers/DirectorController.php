@@ -1,7 +1,6 @@
 <?php
 
-require_once "\\..\\BaseClass\IController.php";
-//require_once "IController.php";
+require_once "IController.php";
 
 // the controller maintains the logic of the model (CRUD opeartions for example)
 
@@ -13,22 +12,18 @@ class DirectorController extends IController
     {
         parent::__construct( $dbHandler, "Directors", "Director" );
         $this->directorObj = $directorObj;
-//        $this->$dbName = $dbName;    
     }
 
-    
-
-    public function Create()
+    public function Create( $directorObj )
     {
-
+      //  parent::Create( $this->directorObj );
+      parent::Create( $directorObj );
     }
 
     public function Read()
     {
 
     }
-
-    
 
     public function Update()
     {
