@@ -18,9 +18,15 @@ class DirectorModel extends IModel
                                 "name" => $this->name ] );
     }
 
-   
+    public function getId( $id )
+    {
+        return $this->id;
+    }
 
-    
+    public function getName( $name )
+    {
+        return $this->name;
+    }
 }
 
 ?>

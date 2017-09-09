@@ -11,7 +11,7 @@ class Notify
         header('"Refresh: 3; URL="' . $nextPageUrl . '"');
     }
     
-    static function error($msg , $nextPageUrl )
+    static function error($msg , $nextPageUrl="" )
     {
         echo '<div class="alert alert-danger">' . $msg . '</div>';
         header('"Refresh: 3; URL="' . $nextPageUrl . '"');

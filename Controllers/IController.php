@@ -8,13 +8,14 @@ class IController
 {
     private $tblName;
     private $modelClassName ;
+    private $dbHandler;
       
     public function __construct( $dbHandler, $tblName, $modelClassName  )
     {     
         if(( $dbHandler )&&( $tblName ))
         {
             $this->dbHandler = $dbHandler;
-            $this->tblName = $tblName;
+            $this->tblName = strtolower($tblName);
             $this->modelClassName = $modelClassName ;
         }
         else
@@ -22,17 +23,16 @@ class IController
             // TODO:?? get from DI Injector
             $errorMsg = "Controller __construct got a faulty dbHandler: " . dbHandler . "or table name: " . $tblName;
             Notify::log( $errorMsg );
-            throw new Exception( $errorMsg );
-            
+            throw new Exception( $errorMsg );   
         }      
     }
 
-    /*
-    public function Read()
+    
+    public function Read( $paramArr )
     {
 
     }
-    */
+    
     public function getAll( ) 
     {
         try
@@ -58,7 +58,7 @@ class IController
 
     public function Create( $modelObj) //Insert
     {
-        $model = $modelObj.jsonSerialize(); 
+        $model = $modelObj->jsonSerialize(); 
         $keyStr = "(";
         $valueStr = " VALUES(";
         
@@ -74,22 +74,64 @@ class IController
 
         $sqlQuery = "INSERT INTO " . $this->tblName . $keyStr . $valueStr .";";
 
-        return $this->dbHandlerr->runQuery( $sqlQuery );
+        $result = $this->dbHandler->runQuery( $sqlQuery );
+
+        if($result)
+        {
+            if ( $GLOBALS['debugMode'] == true)
+                echo "";
+        }
+    
+        return $result;
     }
 
-   
 
-    
-
-    
-
-    public function Update()
+    public function Update( $modelObj )
     {
+        $sqlQuery = "UPDATE `" . $this->tblName . "` SET ";
 
+        $model = $modelObj->jsonSerialize(); 
+
+        foreach( $model as $key => $value ) 
+        {
+            if( $key != "id")
+                $sqlQuery .= "`". $key . "` = '" . $value . "',";    
+        }
+
+        $sqlQuery =substr($sqlQuery, 0 , strlen( $sqlQuery )-1 ) ;
+        $sqlQuery .= " WHERE `" . $this->tblName ."`.`id` = " . $model["id"].";";
+
+        //UPDATE `directors` SET `name` = 'גיד22י דר' WHERE `directors`.`id` = 2
+        //UPDATE `movies` SET `name` = '2לעבור את הקיר', `d_id` = '5' WHERE `movies`.`id` = 2
+        if ( $GLOBALS['debugMode'] == true)
+        {
+            echo   $sqlQuery ;
+            //die();
+        }
+        $result = $this->dbHandler->runQuery( $sqlQuery );
+
+        if($result)
+        {
+            if ( $GLOBALS['debugMode'] == true)
+                echo "Update succeed!";
+        }
+    
+        return $result;
     }
 
-    public function Delete()
+    public function Delete( $id )
     {
+        $sqlQuery = "DELETE FROM `" . $this->tblName . "` WHERE `" . $this->tblName ."`.`id` = " . $id.";";
+        
+        $result = $this->dbHandler->runQuery( $sqlQuery );
+        
+        if($result)
+        {
+            if ( $GLOBALS['debugMode'] == true)
+                echo "Delete succeed!";
+        }
+    
+        return $result;
 
     }
 

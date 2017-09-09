@@ -13,28 +13,6 @@ class DirectorController extends IController
         parent::__construct( $dbHandler, "Directors", "Director" );
         $this->directorObj = $directorObj;
     }
-
-    public function Create( $directorObj )
-    {
-      //  parent::Create( $this->directorObj );
-      parent::Create( $directorObj );
-    }
-
-    public function Read()
-    {
-
-    }
-
-    public function Update()
-    {
-
-    }
-
-    public function Delete()
-    {
-
-    }
-
 }
 
 

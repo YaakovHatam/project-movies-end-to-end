@@ -2,6 +2,7 @@
 
 require_once "../Error/Notify.php";
 
+$debugMode = true;
 
 
 class Connection

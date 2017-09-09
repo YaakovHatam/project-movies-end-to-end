@@ -15,14 +15,25 @@ TEST Succeed!: directorCtrl->getAll().
 -----------------------------------------
 */
 
-
+/*
 $testDir = new DirectorModel("Yosef") ;
-print_r( $testDir->jsonSerialize() );
+//print_r( $testDir->jsonSerialize() );
 
 $dirCtrl = new DirectorController( $dbHanler, $testDir );
 
-$succeed = $dirCtrl->Create($testDir);
+$succeed = $dirCtrl->Create( $testDir );
 echo $succeed;
+TEST Succeed!: directorCtrl->Create(). 
+-----------------------------------------
+*/
+/*
+$testDir = new DirectorModel("Yosef3",5) ;
+$dirCtrl = new DirectorController( $dbHanler, $testDir );
+$succeed = $dirCtrl->Update( $testDir );
 
+*/
 
+$dirCtrl = new DirectorController( $dbHanler );
+
+$succeed = $dirCtrl->Delete( 7 );
 ?>
