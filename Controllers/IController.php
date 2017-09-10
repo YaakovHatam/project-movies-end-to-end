@@ -2,7 +2,7 @@
 
 require_once "\\..\\Models\DirectorModel.php";
 // the controller will maintain the logic of the model, 
-// the CRUD opeartions for example.
+// Implements CRUD opeartions for all controllers that will inherit
 
 class IController
 {
@@ -101,8 +101,6 @@ class IController
         $sqlQuery =substr($sqlQuery, 0 , strlen( $sqlQuery )-1 ) ;
         $sqlQuery .= " WHERE `" . $this->tblName ."`.`id` = " . $model["id"].";";
 
-        //UPDATE `directors` SET `name` = 'גיד22י דר' WHERE `directors`.`id` = 2
-        //UPDATE `movies` SET `name` = '2לעבור את הקיר', `d_id` = '5' WHERE `movies`.`id` = 2
         if ( $GLOBALS['debugMode'] == true)
         {
             echo   $sqlQuery ;
