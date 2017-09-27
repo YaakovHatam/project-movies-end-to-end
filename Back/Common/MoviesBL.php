@@ -1,10 +1,8 @@
 <?php
 
 require_once "\\..\\Models\DirectorModel.php";
-// the controller will maintain the logic of the model, 
-// Implements CRUD opeartions for all controllers that will inherit
 
-class IController
+class MoviesBL
 {
     private $tblName;
     private $modelClassName ;
@@ -15,7 +13,7 @@ class IController
         if(( $dbHandler )&&( $tblName ))
         {
             $this->dbHandler = $dbHandler;
-            $this->tblName = strtolower($tblName);
+            $this->tblName = strtolower($tblName); 
             $this->modelClassName = $modelClassName ;
         }
         else
@@ -27,7 +25,6 @@ class IController
         }      
     }
 
-    
     public function Read( $paramArr )
     {
 

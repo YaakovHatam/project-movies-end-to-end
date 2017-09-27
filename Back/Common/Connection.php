@@ -1,8 +1,13 @@
 <?php
 
-require_once "../Error/Notify.php";
+define('MY_DIR', 'michal-php\end-to-end-movies-project\\');
+
+//require_once (MY_DIR.'Back\Error\Notify.php');
+
 
 $debugMode = true;
+
+
 
 
 class Connection
@@ -37,10 +42,11 @@ class Connection
     
         $this->dsn = "mysql:host=" . $host . ";dbname=" . $dbName . ";charset=" . $charset;
         
-        if( ! $this->connect() ) // db doesnt exist
-        {
+        if( ! $this->connect() ) :// db doesnt exist
+        
             $this->dbConnection = $this->createDb();       
-        }
+        
+        endif;
     }
 
     private function createDb()
@@ -66,10 +72,9 @@ class Connection
 
     public function getDbConnection()
     {
-        if( $this->dbConnection == null)
-        {
+        if( $this->dbConnection == null)        
             $this->connect();
-        }
+        
 
         return $this->dbConnection;
     }
