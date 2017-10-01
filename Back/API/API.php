@@ -1,5 +1,5 @@
 <?php
-
+set_include_path('.;C:\xampp\htdocs\MICHAL-PHP\new-‏‏end-to-end-movies-project');
 require_once 'directorApi.php';
 require_once 'movieApi.php';
 
