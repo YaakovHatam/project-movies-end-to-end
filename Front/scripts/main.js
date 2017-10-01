@@ -4,6 +4,22 @@ var imported = document.createElement('script');
 imported.src = 'directorController.js';
 document.head.appendChild(imported);
 */
+
+$('#moviesBtn').click(function()
+{
+    window.open("file2.html");
+});
+
+$('#directorsBtn').click(function()
+{
+    window.open("Front/html/directors.html");
+});
+
+$('#directorsBody').load(function() 
+{
+    
+});
+
 // keep selected object name (movie/director) in localStorage 
 
 $('li').click( function(){ 
@@ -12,6 +28,7 @@ $('li').click( function(){
                          even .unbind("click") didnt help*/
         window.localStorage.setItem("selectedObj", objName)
 }); //$('li').click
+
 
 $('#submit').click(function() {
     let name;

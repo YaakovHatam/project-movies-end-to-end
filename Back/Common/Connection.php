@@ -7,9 +7,6 @@ define('MY_DIR', 'michal-php\end-to-end-movies-project\\');
 
 $debugMode = true;
 
-
-
-
 class Connection
 {
     private $host;
