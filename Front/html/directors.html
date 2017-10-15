@@ -3,10 +3,7 @@
   <head>
     <meta charset="utf-8">    
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    
     <title>Directors</title>
-
-    
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="../cssLess/movies.css">
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -20,77 +17,60 @@
         <header class="page-header">
             <h1 class="jumbotron text-center">Directors <small> Movies CRUD EndToEnd Project by Michal Yosef</small></h1>
         </header>
-      <p><br/></p>
-      <div class="container">
-          <p></p>
-          <button class="btn btn-primary" data-toggle="modal" data-target="#create">Insert </button>
-          <!-- Modal -->
-          <div class="modal fade" id="create" tabindex="-1" role="dialog" aria-labelledby="addLabel">
-              <div class="modal-dialog" role="document">
-                  <div class="modal-content">
-                        <div class="modal-header">
-                          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                          <h4 class="modal-title" id="createLabel">Insert</h4>
-                        </div>
-                        <form>
-                            <div class="modal-body">
-                                <div class="form-group">
-                                    <label for="name">Director Name:</label>
-                                    <input type="text" class="form-control" id="name" placeholder="Enter name here..."  value="John">
+        <main>
+            <p><br/></p>
+            <div class="container">
+                <p></p>
+                <button class="btn btn-primary" data-toggle="modal" data-target="#create">Insert </button>
+                <!-- Modal -->
+                <div class="modal fade" id="create" tabindex="-1" role="dialog" aria-labelledby="addLabel">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                                <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="createLabel">Insert</h4>
                                 </div>
                                 <!--
-                                <div class="form-group">
-                                    <label for="email">email</label>
-                                    <input type="email" class="form-control" id="email" placeholder="email..."  value="John@gmail.com">
-                                </div>
-                                <div class="form-group">
-                                    <label for="phone">Phone</label>
-                                    <input type="number" class="form-control" id="phone" placeholder="Enterphone here..."  value="0123456">
-                                </div>
-                                <div class="form-group">
-                                    <label for="address">Adress</label>
-                                    <textarea class="form-control" id="address" placeholder="address...">John's address</textarea>
-                                </div>-->
-                            </div>     
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                <button type="submit" id='btnCreate' class="btn btn-primary">Save (Create) </button>
+                                    This is the modal for Create new Director
+                                -->
+                                <form> 
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label for="name">Director Name:</label>
+                                            <input type="text" class="form-control" id="name" placeholder="Enter name here..."  value="John">
+                                        </div>
+                                    </div>     
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        <button type="submit" id='btnCreate' class="btn btn-primary">Save (Create) </button>
+                                    </div>
+                                </form>
                             </div>
-                        </form>
-                    </div>
+                        </div>
                 </div>
-        </div>
-        <div id="result"></div>
-      <p></p>
-      <table class="table table-bordered table-stripped table-hover">
-          <thead>
-              <tr>
-                  <th width=40>ID</th>
-                  <th>Name</th>
-        <!--          <th>Email</th>
-                  <th>Phone</th>
-                  <th>Address</th>
-                  <th width=160> Action</th>-->
-              </tr>
-
-          </thead>
-          <tbody>
-
-          </tbody>
-
-      </table>
-
-      </div>
+                <div id="result"></div>
+                <p></p>
+                <table class="table table-bordered table-stripped table-hover">
+                    <thead>
+                        <tr>
+                            <th width=40>ID</th>
+                            <th>Name</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div> <!-- end of container-->
+    </main>
         
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="../js/main.js"></script>
-    <script src="../js/crud.js"></script>
-    <script src="../js/modelController.js"></script>
-    <script src="../js/Model.js"></script>
-    <script src="../js/App.js"></script>
-    <script src="../js/View.js"></script>
-    <script src="../js/DirectorController.js"></script>
+    <script src="../scripts/main.js"></script>
+    <script src="../scripts/View.js"></script>
+    <script src="../scripts/crud.js"></script>
+    <script src="../scripts/modelController.js"></script>
+    <script src="../scripts/Model.js"></script>
+    <script src="../scripts/App.js"></script>
+    <script src="../scripts/DirectorController.js"></script>
     
   </body>
 </html>

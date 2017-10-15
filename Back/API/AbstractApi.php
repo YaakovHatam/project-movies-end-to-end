@@ -3,23 +3,10 @@
 // To be extended as a specific API of each model / Controller 
     abstract class Api 
     {
-        // private $dbHandler;
-
         abstract function Create( $params );
         abstract function Read( $params );
         abstract function Update( $params );
         abstract function Delete( $params );
-
-        // protected function getdbHandler()
-        // {
-        //     return $this->dbHandler;
-        // }
-
-        // protected function setdbHandler( $dbHandler )
-        // {
-        //     $this->dbHandler = $dbHandler;
-        // }
-
 
         public function handleClientRequests(  $method, $params ) 
         {

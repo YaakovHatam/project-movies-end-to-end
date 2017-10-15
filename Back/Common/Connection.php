@@ -1,8 +1,8 @@
 <?php
+header('Content-Type: text/html; charset=utf-8');
 
-define('MY_DIR', 'michal-php\end-to-end-movies-project\\');
 
-//require_once (MY_DIR.'Back\Error\Notify.php');
+
 
 
 $debugMode = true;
@@ -26,7 +26,8 @@ class Connection
                                  $charset = 'utf8',//'utf8_general_ci',
                                  $opt = [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                                          PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-                                         PDO::ATTR_EMULATE_PREPARES   => false]
+                                         PDO::ATTR_EMULATE_PREPARES   => false,
+                                         PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"]
                                 )
     {
         $this->host    = $host;
@@ -49,16 +50,33 @@ class Connection
         try
         {
             if(!$this->dbConnection)
-                $this->dbConnection = $this->createDb();       
-           
-            $this->dbConnection = new PDO( $this->dsn, $this->user, $this->password, $this->opt );
+            {
+                try
+                {
+                    $this->dbConnection = new PDO( $this->dsn, $this->user, $this->password, $this->opt );
+                }
+                catch( PDOException $e) 
+                {
+                    if((strpos($e->getMessage(), 'SQLSTATE[HY000] [1049] Unknown database') !== false) )
+                    {
+                        $this->dbConnection = $this->createDb();       
+                    }    
+                    else
+                    {
+                        return null;
+                    }       
+                }
+            }
+                
+            // this is required to see hebrew 
+            $this->dbConnection->exec("SET NAMES 'utf8'");
 
             return $this->dbConnection;
             
-        }catch( PDOException $e) {
-
-            Notify::error( 'Connection failed:  exception was thrown: ' . $e->getMessage() );
-            return null;
+        }catch( PDOException $e) 
+        {
+            die("DB ERROR: ". $e->getMessage());
+            
         }
         
     }
@@ -73,7 +91,18 @@ class Connection
                             $this->password, 
                             array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET sql_mode="NO_AUTO_VALUE_ON_ZERO"',
                                   PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION ) );
+    /*
+    זה עבד
     
+CREATE DATABASE  IF NOT EXISTS `test_heb`  DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+CREATE table  IF NOT EXISTS `test_heb`.`directors`(
+            id int(11) NOT NULL AUTO_INCREMENT,
+            name varchar(50) NOT NULL,
+            PRIMARY KEY (id)
+            ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 DEFAULT COLLATE utf8_unicode_ci;
+            
+INSERT INTO `directors` (`id`, `name`) VALUES (NULL, 'רמה בורשטין'), (NULL, 'גידי דר')
+    */      $dbh->exec("SET NAMES 'utf8';");
             $dbh->exec("CREATE DATABASE  IF NOT EXISTS `$this->dbName`  DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
                     CREATE USER '$this->user'@'localhost' IDENTIFIED BY '$this->password';
                     GRANT ALL ON `$this->dbName`.* TO '$this->user'@'localhost';
@@ -93,7 +122,7 @@ class Connection
             id int(11) NOT NULL AUTO_INCREMENT,
             name varchar(50) NOT NULL,
             PRIMARY KEY (id)
-            ) ENGINE=InnoDB';
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8 DEFAULT COLLATE utf8_unicode_ci';
             
     
 
@@ -109,24 +138,19 @@ class Connection
             PRIMARY KEY (id),
             CONSTRAINT movie_dir_id FOREIGN KEY (d_id)
             REFERENCES `movies_project`.`directors` (id)
-            ) ENGINE=InnoDB';
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8 DEFAULT COLLATE utf8_unicode_ci';
                                                                                                                                                                                 
 
             $dbh->exec($sqlCreateTbl);                                                                  
 
-            /*
-            INSERT INTO `directors` (`id`, `name`) VALUES
-            (1, 'רמה בורשטין'),
-            (2, 'גידי דר');
             
-            
-            INSERT INTO `movies` (`id`, `name`, `d_id`) VALUES
-            (1, 'אושפיזין', 2),
-            (2, 'לעבור את הקיר', 1);
-
-            */
-            
-            
+            $sqlCreateTbl = "INSERT INTO `movies_project`.`directors` (`id`, `name`) VALUES (NULL, 'רמה בורשטין'), (NULL, 'גידי דר')";
+            $dbh->exec($sqlCreateTbl);
+           
+            $sqlCreateTbl = "INSERT INTO `movies_project`.`movies` (`id`, `name`, `d_id`) VALUES (NULL, 'אושפיזין', 2), (NULL, 'לעבור את הקיר', 1)";
+            $dbh->exec($sqlCreateTbl);
+           
+            return $dbh;
     
         } catch (PDOException $e) 
         {
@@ -162,15 +186,23 @@ class Connection
     {
         try
         {
-            $statement = $this->getDbConnection()->prepare( $sqlQuery );
-            
-            if(  ! $statement->execute($arrParams) )
+            $dbh = $this->getDbConnection();
+            if($dbh)
             {
-                die(print_r('pdo->prepare->execute failed' , true));
-                
+                $statement = $dbh->prepare( $sqlQuery );
+                if($statement)
+                {
+                    if(  ! $statement->execute($arrParams) )
+                    {
+                        die(print_r('pdo->prepare->execute failed' , true));
+                        
+                    }
+                    return $statement;
+
+                }
             }
-            return $statement;
             
+        
         }catch( PDOException $e) 
         {
             die(print_r($this->dbConnection->errorInfo(), true));

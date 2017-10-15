@@ -1,13 +1,20 @@
 <?php
-set_include_path('.;');//;C:\xampp\htdocs\MICHAL-PHP\new-‏‏end-to-end-movies-project;C:\xampp\php\PEAR;');
 
-require_once "IController.php";
-require_once "../Common/Connection.php";
-//require_once '..//Common/Connection.php';
+require_once '../common/App.php';
 
-// the controller maintains the logic of the model (CRUD opeartions for example)
+$movieApp = new App();
+// Connect to DB
+try
+{    
+    $db = new PDO('mysql:host=127.0.0.1;dbname='. $movieApp->getDbName() ,'root','');    
+}catch( PDOException $e) 
+{
+    echo 'Connection failed:  exception was thrown: ' . $e->getMessage();   
+}
 
-/*
+
+$page = isset($_GET['p']) ? $_GET['p'] : '';
+
 if($page == 'create')
 {
     $name = $_POST['name'];
@@ -75,62 +82,7 @@ if($page == 'create')
     {
         echo 'pdo prepare/execute failed:  exception was thrown: ' . $e->getMessage();   
     }
-        
-}
-
-*/
-
-class DirectorController extends IController
-{
-    private $directorObj; 
-      
-    public function __construct( $dbHandler=null, $directorObj=null )
-    {
-        if($dbHandler==null){
-            $dbHandler = new Connection( "movies_project" );
-        }
-        parent::__construct( $dbHandler, "Directors", "DirectorModel" );
-        $this->directorObj = $directorObj;
-    }
-
-    public function Read( $paramArr )
-    {
-        try
-        {
-            $allObjArr = parent::Read( $paramArr );
-            
-            //echo json_encode( $allObjArr);
-            $data = $allObjArr;
-            header('Content-Type: application/json');
-            echo json_encode($data);
-
-
-            // if(  $statement )
-            // {   
-            //    // $this->createHtmlTbl( $statement );
-            //     /*             
-            //     $allObjArr = $statement->fetchAll( PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, $this->modelClassName , array('id', 'name'));
-            //     $tmp = $allObjArr[0]->jsonSerialize() ;
-            //     return json_encode( $tmp);
-            //     */
-            // }
-            // else
-            // {
-     
-            // }
-
-        }
-        catch(PDOException  $e )
-        {
-            notify::Error( $e->getMessage() );
-            Die(); //TODO: Restart app
-        }
-
-    }
-/*
-    private function createHtmlTbl( $statement )
-    {
-        while( $row = $statement->fetch())
+        while($row=$stmnt->fetch())
         {
             ?><tr>
                 <td><?php echo $row['id']?></td>
@@ -165,8 +117,6 @@ class DirectorController extends IController
                 </td>
             </tr><?php    
         }
-    }*/
 }
-
 
 ?>

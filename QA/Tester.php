@@ -20,7 +20,7 @@ var_dump( $allDirectorsArr );
 TEST Succeed!: directorCtrl->Create(). 
 -----------------------------------------
 */
-$testDir = new DirectorModel("Yosef") ;
+$testDir = new DirectorModel(" יוסףYosef") ;
 echo "</br>TEST 2: ";
 print_r( $testDir->jsonSerialize() );
 
@@ -33,7 +33,7 @@ else
     echo "Create failed";
 
 /*TEST 3*/
-$testDir = new DirectorModel("Yosef3",5) ;
+$testDir = new DirectorModel(5,"Yosef3") ;
 $dirCtrl = new DirectorController( $dbHanler, $testDir );
 $succeed = $dirCtrl->Update( $testDir );
 echo "</br>TEST 3: ";

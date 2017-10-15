@@ -2,7 +2,7 @@
 set_include_path('.;C:\xampp\htdocs\MICHAL-PHP\new-‏‏end-to-end-movies-project');
 require_once 'directorApi.php';
 require_once 'movieApi.php';
-
+require_once 'Params.php';
 
 $requestMethod = $_SERVER['REQUEST_METHOD']; 
 $apiObj;
@@ -15,8 +15,22 @@ if($_SERVER['REQUEST_METHOD'] == 'PUT' || $_SERVER['REQUEST_METHOD'] == 'DELETE'
 }
 else
 {
+    if($_SERVER['REQUEST_METHOD'] == 'POST') 
+    {
+        $post = $_POST;
+        var_dump($_POST);
+    }
+    
     $params = $_REQUEST['params'];
 }
+
+if($params=="")
+{
+    $params = array();
+}
+//print_r($params);
+
+//$requestParams = new Params();
 
 $objType = $_REQUEST['objectType'];
 
@@ -34,7 +48,7 @@ switch ($objType) {
 // $dbHandler = new Connection( "movies_project" ); /* sending dbHandle from outside 
 //                                                    acording to DI rules*/
 $result  = $apiObj->handleClientRequests( $requestMethod, $params );
-echo json_encode($result);
+//echo json_encode($result);
 
 
 ?>

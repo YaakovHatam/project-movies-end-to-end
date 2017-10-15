@@ -27,60 +27,6 @@ class IController
         }      
     }
 
-    
-    public function Read( $paramArr )
-    {
-        if((!$paramArr)||( $paramArr["id"]==0))
-            return getAll() ;
-
-        try
-        {
-            $sqlQuery = "SELECT * FROM " . $this->tblName . " WHERE `" . $this->tblName ."`.`id` = " . $paramArr["id"].";";
-            $statement = $this->dbHandler->runQuery( $sqlQuery );
-
-            if(  $statement )
-            {                
-                $allObjArr = $statement->fetchAll( PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, $this->modelClassName , array('id', 'name'));
-                $tmp = $allObjArr[0]->jsonSerialize() ;
-                return json_encode( $tmp);
-            }
-            else
-            {
-                Notify("No data returned from GetAll, tabls name:  " . $this->tblName );
-            }
-
-        }
-        catch(PDOException  $e )
-        {
-            notify::Error( $e->getMessage() );
-            Die(); //TODO: Restart app
-        }
-
-    }
-    
-    public function getAll() 
-    {
-        try
-        {
-            $statement = $this->dbHandler->runQuery( "SELECT * FROM " . $this->tblName );
-            if(  $statement )
-            {                
-                $allObjArr = $statement->fetchAll( PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE , $this->modelClassName );
-                return $allObjArr;
-            }
-            else
-            {
-                Notify("No data returned from GetAll, tabls name:  " . $this->tblName );
-            }
-
-        }
-        catch(PDOException  $e )
-        {
-            notify::Error( $e->getMessage() );
-            Die(); //TODO: Restart app
-        }
-    }
-
     public function Create( $modelObj) //Insert
     {
         $model = $modelObj->jsonSerialize(); 
@@ -109,6 +55,67 @@ class IController
     
         return  $result;
     }
+
+
+    public function Read( $paramArr )
+    {
+        if(count($paramArr)==0)
+        {
+            return $this->getAll() ;
+        }
+
+        try
+        {
+            $sqlQuery = "SELECT * FROM " . $this->tblName . " WHERE `" . $this->tblName ."`.`id` = " . $paramArr["id"].";";
+            $statement = $this->dbHandler->runQuery( $sqlQuery );
+
+            if(  $statement )
+            {                
+                $allObjArr = $statement->fetchAll( PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, $this->modelClassName , array('id', 'name'));
+                return $allObjArr;
+                // $tmp = $allObjArr[0]->jsonSerialize() ;
+                // return json_encode( $tmp);
+            }
+            else
+            {
+                Notify("No data returned from GetAll, tabls name:  " . $this->tblName );
+            }
+
+        }
+        catch(PDOException  $e )
+        {
+            notify::Error( $e->getMessage() );
+            Die(); //TODO: Restart app
+        }
+
+    }
+    
+    public function getAll() 
+    {
+        try
+        {
+            $statement = $this->dbHandler->runQuery( "SELECT * FROM " . $this->tblName );
+            if(  $statement )
+            {   
+              //  return  $statement;             
+                 $allObjArr = $statement->fetchAll( PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE , $this->modelClassName );
+                 return $allObjArr;
+            }
+            else
+            {
+                Notify("No data returned from GetAll, tabls name:  " . $this->tblName );
+                return null;
+            }
+
+        }
+        catch(PDOException  $e )
+        {
+            notify::Error( $e->getMessage() );
+            Die(); //TODO: Restart app
+        }
+    }
+
+    
 
 
     public function Update( $modelObj )

@@ -14,12 +14,9 @@ $('#directorsBtn').click(function()
 {
     window.open("Front/html/directors.html");
 });
+/*
 
-$('#directorsBody').load(function() 
-{
-    
-});
-
+*/
 // keep selected object name (movie/director) in localStorage 
 
 $('li').click( function(){ 
