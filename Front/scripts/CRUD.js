@@ -13,10 +13,8 @@ $( document ).ready(function()
 
 
 // jquery ajax implementation Module of CRUD operations
-var CRUD = (function( objType) 
+var CRUD = (function() 
 {
-    
-
     function getObjType()
     {
         return crudObjType = $('table').attr('id');
@@ -32,6 +30,13 @@ var CRUD = (function( objType)
         
         let params = DirectorController.loadInputs('create');
 
+        // var my_json_obj;
+        
+        // $.each(params, function(key,value){
+        //     my_json_obj[key]=value;
+        // });
+        
+
         $.ajax({
             type: "POST",
             url: App.getServerUrl(),
@@ -39,8 +44,8 @@ var CRUD = (function( objType)
             dataType: 'json',
             data: 
             { 
-                objectType: getObjType(),
-                params: JSON.stringify([params])
+                //objectType: getObjType(),
+                params: params//JSON.stringify(params)
             }, 
             success: function(response)
             {
@@ -113,14 +118,20 @@ var CRUD = (function( objType)
 
     function Delete(id)
     {
+        let param=[];
+        param['id'] = id;
+
+        let params=[] ;
+        params['params'] = param;
+        
         $.ajax({
             type: "DELETE",
             url: App.getServerUrl(),
             dataType: 'json',
             data: 
             { 
-                objectType: getObjType(),
-                id : id
+               // objectType: getObjType(),
+                params : params
             },
             async: false,
             success: function(response)

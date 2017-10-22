@@ -9,7 +9,7 @@ const modelController = (function()
     function loadInputs( crudOpt, id=0 )
     {
         let jsonStr = '{';
-
+        let inputArr = [];
         switch( crudOpt )
         {
             case 'create':
@@ -18,14 +18,31 @@ const modelController = (function()
                 {
                     if( key != 'id')
                     {
-                        // concat key value json string
-                        jsonStr += modelDataArr[key].htmlId + ' : "' + $( '#'+modelDataArr[key].htmlId ).val() + '",';
+                        inputArr[key] =  $( '#'+modelDataArr[key].htmlId ).val();
+                        //jsonStr += modelDataArr[key].htmlId + ' : "' + $( '#'+modelDataArr[key].htmlId ).val() + '",';
                     }
                 }
-                jsonStr = jsonStr.slice(0, -1);
-                jsonStr += '}';
+                inputArr['objectType'] = getObjType();
                 
-                return jsonStr; 
+                return inputArr; 
+
+                // for(let key in modelDataArr) 
+                // {
+                //     if( key != 'id')
+                //     {
+                //         // concat key value json string
+                //         jsonStr += modelDataArr[key].htmlId + ' : "' + $( '#'+modelDataArr[key].htmlId ).val() + '",';
+                //     }
+                // }
+                // jsonStr = jsonStr.slice(0, -1);
+                // jsonStr += '}';
+                
+                // return jsonStr; 
+                // var my_json_obj = json_obj_1;
+                
+                // $.each(json_obj_2, function(key,value){
+                //     my_json_obj[key]=value;
+                // });
             }
             case 'update':
             {
@@ -53,6 +70,11 @@ const modelController = (function()
 
     } //end of function loadInputs
 
+    function getObjType()
+    {
+        return crudObjType = $('table').attr('id');
+    }
+    
     function get()
     {
         return modelData;

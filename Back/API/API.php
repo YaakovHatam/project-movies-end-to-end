@@ -8,16 +8,20 @@ $requestMethod = $_SERVER['REQUEST_METHOD'];
 $apiObj;
 
 $sentParams = new Params();
-$params = $sentParams->getParams();
-//var_dump($params);
 
+$objType = $sentParams->getParam('objectType');//$_REQUEST['objectType'];
+$sentParams->unsetParam('objectType');
 
-if($params['params']=="")
+if($sentParams->isEmpty('params'))
 {
     $params['params'] = array();
 }
+else
+{
+    $params = $sentParams->getParams();
+}
 
-$objType = $_REQUEST['objectType'];
+
 
 switch ($objType) {
     
@@ -30,12 +34,10 @@ switch ($objType) {
             break;
 }
 
-// $dbHandler = new Connection( "movies_project" ); /* sending dbHandle from outside 
-//                                                    acording to DI rules*/
 
-//unset($params['objectType']);
 
-$result  = $apiObj->handleClientRequests( $requestMethod, json_decode($params['params'] ));
+
+$result  = $apiObj->handleClientRequests( $requestMethod, $params);//json_decode($params)
 //var_dump( $result);
 // $result  = json_encode($result);
 // $utf = array_map(function($r) 

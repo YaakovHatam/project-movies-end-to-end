@@ -30,6 +30,15 @@ class Params
         }
     }
 
+    public function isEmpty( $name)
+    {
+        return (($this->params[$name]==null)||($this->params[$name]=="{}"));
+    }
+
+    public function unsetParam($name)
+    {
+        unset($this->params[$name]);
+    }
     public function getParams()
     {
         return $this->params;
