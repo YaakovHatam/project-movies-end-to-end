@@ -15,84 +15,96 @@ $( document ).ready(function()
 // jquery ajax implementation Module of CRUD operations
 var CRUD = (function( objType) 
 {
-    let crudObjType = objType;
+    
+
+    function getObjType()
+    {
+        return crudObjType = $('table').attr('id');
+    }
+    
+
     function Create() 
     {
-        /*
-        case "POST":
-                    return $this->Create( $params );
-        */
+       // add all inputs into FormData object
+        // var formData = new FormData();
+        // formData.append('objectType', getObjType());
+        // formData.append('params', { name: DirectorController.loadInputs('create')});
+        
+        let params = DirectorController.loadInputs('create');
+
         $.ajax({
             type: "POST",
-            url: App.getServerUrl(),// + '?p=create',
-            //data: DirectorController.loadInputs('create'),
+            url: App.getServerUrl(),
+            //data:   formData,
+            dataType: 'json',
             data: 
             { 
-                objectType: crudObjType,
-                params: { //objectType: crudObjType, 
-                          name: DirectorController.loadInputs('create')}
-            },
-            async: false,
+                objectType: getObjType(),
+                params: JSON.stringify([params])
+            }, 
             success: function(response)
             {
                 Read(); 
+                View.notifySuccess("Create succeed")
             },
             error: function(jqXHR, textStatus, errorThrown)
             {
-                View.alertError(textStatus)
+                
+                View.alertError( errorThrown);
             }   
             }).done(function(response)
             {
-                View.notifySuccess("Create succeed")
+              //  View.notifySuccess("Create succeed")
             });
     }
 
-    function Read(crudObjType)//viewData
+    function Read(crudObjType)
     {
-        /*
-         case "GET":
-                    return  $this->Read( $params );
-        */
         $.ajax({
             type: "GET",
             url: App.getServerUrl() ,
+            dataType: 'json',
             data: 
             { 
-                objectType: crudObjType,
-                params: null//new Array()
+                objectType: getObjType(),
+                params: JSON.stringify({})
             },
-            success: function(response)
+            success: function(returnedData)
             {
-                //let arr = JSON.parse(response);
-                View.addToTblBody( response );
-                //$('tbody').html(response);   
+
+                View.createTblBody( returnedData );
+                //View.notifySuccess("Read succeed")
+                
             },
             error: function(jqXHR, textStatus, errorThrown)
             {
-                alert(jqXHR+textStatus+errorThrown);
+                View.alertError( errorThrown);
             }   
         }); //end of $.ajax
 
     }
 
-    function Update(id)
+    function Update(id, clickedB)
     {
-        /*
-         case "PUT":
-                    return $this->Update( $params );
-        */
+        let params = DirectorController.loadInputs('update',id);
         $.ajax({
-            type: "POST",
-            url: App.getServerUrl() + '?p=update',
-            data: DirectorController.loadInputs('update',id),
+            type: "PUT",
+            url: App.getServerUrl(),
+            dataType: 'json',
+            data: 
+            { 
+                objectType: getObjType(),
+                params: params
+            }, 
             async: false,
             success: function(response)
             {
                 Read(); 
+                View.notifySuccess("Update succeed")
             },
             error: function(jqXHR, textStatus, errorThrown)
             {
-                alert(jqXHR+textStatus+errorThrown);
+                View.alertError( errorThrown);
                 
             }   
             });
@@ -101,23 +113,25 @@ var CRUD = (function( objType)
 
     function Delete(id)
     {
-        /*
-case "DELETE":
-    return $this->Delete( $params );
-*/
         $.ajax({
-            type: "GET",
-            url: App.getServerUrl() + '?p=del',
-            data: "id="+id,
+            type: "DELETE",
+            url: App.getServerUrl(),
+            dataType: 'json',
+            data: 
+            { 
+                objectType: getObjType(),
+                id : id
+            },
             async: false,
             success: function(response)
             {
                 Read(); 
+                View.notifySuccess("Delete succeed")
             },
             error: function(jqXHR, textStatus, errorThrown)
             {
-                alert(jqXHR+textStatus+errorThrown);
-                //BUG HERE:$('#result').html("<br/><div class='alert alert-danger'>Error: "+textStatus+"</div>");
+                View.alertError( errorThrown);
+                
             }   
         }); //end of $.ajax
 

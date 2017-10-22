@@ -2,45 +2,67 @@
 
 const View = (function() 
 {
-    function addToTblBody( objArr)
+    function createTblBody( objArr)
+    {
+        // first clear prev content
+        $('tbody').html("");
+
+        // load current content to table body
+        for(i=0 ; i<objArr.length ; i++)
+        {
+            addTblRow( objArr[i].id, objArr[i].name );
+        }       
+    }
+
+    function addTblRow( id, name )
     {
         let htmlTblStr='';
 
-        for(i=0 ; i<objArr.length ; i++)
-        {
-            let id = objArr[i].id;
-
-            htmlTblStr += `<tr><td>`+ id + `</td><td>`+ objArr[i].name + `</td>`;
-            htmlTblStr += `<td><button class="btn btn-warning"  data-toggle="modal" data-target="#update-<?php echo $row['id']?>">Edit</button>`;
-                    //Modal 
-            htmlTblStr += `<div class="modal fade" id="update-`+ id + ` tabindex="-1" role="dialog" aria-labelledby="updateLabel-`+ id + `>`;
-            htmlTblStr += `<div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                            <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title" id="updateLabel-`+ id + `>Edit data</h4></div>`;
-            htmlTblStr += `<form>
-                                <div class="modal-body">
-                                <input type="hidden" id=`+ id + ` value=`+ id + `>
-                                    <div class="form-group">
-                                        <label for="name">Name</label>
-                                        <input type="text" class="form-control" id="name-`+ id + ` value=`+ id + `>
+        htmlTblStr += `<tr>
+                            <td>`
+                                + id + `
+                            </td>
+                            <td>`
+                                + name + `
+                            </td>
+                            <td>
+                                <button onclick="CRUD.Update(`+ id +`)" 
+                                        class="btn btn-warning"  
+                                        data-toggle="modal" 
+                                        data-target="#update-`+ id +`"> Edit
+                                </button>
+                                <div class="modal fade" id="update-`+ id + ` tabindex="-1" 
+                                     role="dialog" aria-labelledby="updateLabel-`+ id + `>                                    
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                </button>                            
+                                                <h4 class="modal-title" id="updateLabel-`+ id + `>Edit data</h4></div>
+                                                <form>
+                                                    <div class="modal-body">
+                                                        <input type="hidden" id=`+ id + ` value=`+ id + `>
+                                                        <div class="form-group">
+                                                            <label for="name">Name</label>
+                                                            <input type="text" class="form-control" id="name-`+ id + ` value=`+ name + `>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                        <button type="submit" onclick="CRUD.Update(`+ id +`)" class="btn btn-primary">Save changes</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                <button type="submit" onclick="CRUD.Update(`+ id +`)" class="btn btn-primary">Save changes</button>
-                                </div>
-                            </form>
-                        </div>
-                        </div>
-                    </div>
-                    <button onclick="CRUD.Delete(`+ id + `)" class="btn btn-danger">Delete</button>
-                </td>
-            </tr>`;
-        }
+                                    <button onclick="CRUD.Delete(`+ id + `)" class="btn btn-danger">Delete</button>
+                            </td>
+                        </tr>`;
+                    
+                        //id="btnDelete-"` + id + `
 
-        $('tbody').html(htmlTblStr); 
+                    $('tbody').append(htmlTblStr); 
     }
     /*
     function doModal(heading, formContent) {
@@ -79,31 +101,48 @@ const View = (function()
         
     }
     
-    function alertError( text )
+    function alertError( msg )
     {
-        // TODO: BUg doesnt work
-        //$('#result').html("<br/><div class='alert alert-danger'>Error: "+textStatus+"</div>");
+        /*
+        <div class="alert alert-warning alert-dismissible" role="alert">
+          <span type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span></span>
+        <strong>Warning!</strong> Still on beta stage.
+        </div>
+        */
+        // let str = "<div class='alert alert-danger alert-dismissible'>" + 
+        //                 msg + 
+        //           "</div>";
+
+        let str = `<p></p>
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            <span type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">
+                    &times;
+                </span>
+            </span>
+            <strong>Error!</strong>` + msg +`
+        </div>`;
+        
+         $('#result').html(str);
     }   
         
     function notifySuccess( msg )
     {
         
-        // TODO: BUg doesnt work
-        
         let str = "<br/><div class='alert alert-info alert-dismissible'>"+msg+"</div>";
-       
-        $('#result').html(str);
-        //document.getElementById('result').innerHTML=str;
         
-        //$( "<br/><div class='alert alert-info'>"+msg+"</div>" ).appendTo( "#result" );
+         $('#result').html(str);
     }
+
+    
 
 
     return {    
         show: show,
         notifySuccess: notifySuccess,
         alertError :alertError,
-        addToTblBody: addToTblBody
+        createTblBody: createTblBody
     };
 
 }()); // end of View closure

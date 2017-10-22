@@ -33,7 +33,7 @@ $('#submit').click(function() {
     //let dirercotr_model = new DirectorModuleController();
 
     let clickedButton = $('#submit').val();
-    let selectedObj = window.localStorage.getItem("selectedObj");
+    // let selectedObj = window.localStorage.getItem("selectedObj");
     let theObj;
         
     switch( clickedButton ) 

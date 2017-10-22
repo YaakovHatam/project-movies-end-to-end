@@ -4,7 +4,7 @@ require_once "\\..\\Models\DirectorModel.php";
 // the controller will maintain the logic of the model, 
 // Implements CRUD opeartions for all controllers that will inherit
 
-class IController
+class IController 
 {
     private $tblName;
     private $modelClassName ;
@@ -29,11 +29,18 @@ class IController
 
     public function Create( $modelObj) //Insert
     {
-        $model = $modelObj->jsonSerialize(); 
+        //$model = $modelObj->jsonSerialize(); 
         $keyStr = "(";
         $valueStr = " VALUES(";
         
-        foreach( $model as $key => $value ) 
+        
+       
+        // if( !is_array($modelObj))
+        // {
+        //     $modelObj =  (array) $modelObj;
+        // }
+
+        foreach( $modelObj as $key => $value ) 
         {
             $keyStr .= $key . ", ";
             $valueStr .= "'" . $value . "',";    
@@ -49,17 +56,20 @@ class IController
 
         if($result)
         {
-            if ( $GLOBALS['debugMode'] == true)
-                echo "";
+            return  $result;
+        }
+        else
+        {
+            return null;
         }
     
-        return  $result;
+        
     }
 
 
     public function Read( $paramArr )
     {
-        if(count($paramArr)==0)
+        if( (count($paramArr)==0) || ( array_key_exists("id", $paramArr)==false))
         {
             return $this->getAll() ;
         }
@@ -155,13 +165,13 @@ class IController
         
         $result = $this->dbHandler->runQuery( $sqlQuery );
         
-        if($result)
-        {
-            if ( $GLOBALS['debugMode'] == true)
-                echo "Delete succeed!";
-        }
+        // if($result)
+        // {
+        //     if ( $GLOBALS['debugMode'] == true)
+        //         echo "Delete succeed!";
+        // }
     
-        return $result;
+        // return $result;
 
     }
 

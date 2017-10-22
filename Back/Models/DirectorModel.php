@@ -16,9 +16,9 @@ class DirectorModel extends IModel
     }
 
     public function jsonSerialize() 
-    {
-        return  ["id" => $this->id,
-                 "name" => $this->name ];
+    {    
+         return ["id" => $this->id,
+                 "name" => $this->name];
     }
 
     public function getId( )

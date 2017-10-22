@@ -7,7 +7,7 @@
     {
         function Create( $params ) 
         {
-            $dirCtrl = new DirectorController();
+            $dirCtrl = new DirectorController(null,  $params);
             return $dirCtrl->Create( $params );
         }
 
@@ -17,7 +17,7 @@
 
             // if (array_key_exists("id", $params)) 
             // {
-                /*return createHtmlTblByPdoResult(*/ $dirCtrl->Read( $params );
+                /*return createHtmlTblByPdoResult(*/ return $dirCtrl->Read( $params );
                  //return json_encode($dirCtrl->Read( $params ), JSON_PRETTY_PRINT);
             // }
             // else 
@@ -34,6 +34,7 @@
          function Delete($params) 
          {
             $dirCtrl = new DirectorController();
+            return  $dirCtrl ->delete($params);
          }
     }
 ?>

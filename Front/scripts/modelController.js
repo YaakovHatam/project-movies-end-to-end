@@ -4,11 +4,11 @@
 
 const modelController = (function() 
 {
-    let modelDataArr;
+    var modelDataArr;
     
     function loadInputs( crudOpt, id=0 )
     {
-        let ajaxStr = '';
+        let jsonStr = '{';
 
         switch( crudOpt )
         {
@@ -18,13 +18,14 @@ const modelController = (function()
                 {
                     if( key != 'id')
                     {
-                        modelDataArr[key].val = $( '#'+modelDataArr[key].htmlId ).val();
-                        ajaxStr /*+= modelDataArr[key].htmlId + '=' +*/= modelDataArr[key].val ;//+ '&';
+                        // concat key value json string
+                        jsonStr += modelDataArr[key].htmlId + ' : "' + $( '#'+modelDataArr[key].htmlId ).val() + '",';
                     }
                 }
-                //ajaxStr = ajaxStr.slice(0, -1);
-              
-                return ajaxStr; 
+                jsonStr = jsonStr.slice(0, -1);
+                jsonStr += '}';
+                
+                return jsonStr; 
             }
             case 'update':
             {
@@ -33,16 +34,20 @@ const modelController = (function()
                     if( key != 'id')
                     {
                         modelDataArr[key].val = $( '#' + modelDataArr[key].htmlId + "-" + id ).val();
-                        ajaxStr += modelDataArr[key].htmlId + '=' + modelDataArr[key].val + '&';
+                        jsonStr += modelDataArr[key].htmlId + '=' + modelDataArr[key].val + '&';
+                        /*
+                        id="updateLabel-`+ id
+                        */
                     }
                 }
-                ajaxStr = ajaxStr.slice(0, -1);
-                ajaxStr += "&id="+id ;
+                jsonStr = jsonStr.slice(0, -1);
+                jsonStr += "&id="+id ;
 
-                return ajaxStr; 
+                return jsonStr; 
             }
             default:
-                alert("error in modelController.loadInputs. unknown crudOpt");
+                View.alertError("error in modelController.loadInputs. unknown crudOpt");
+                return null;
             
         } //end of switch( crudOpt )
 
@@ -64,4 +69,4 @@ const modelController = (function()
                 loadController: loadController
             };
 
-}()); // end of var Model = (function()
+}()); // end of modelController

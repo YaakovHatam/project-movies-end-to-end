@@ -17,6 +17,13 @@ class MovieModel extends IModel
                                 "name" => $this->name,
                                 "d_id" => $this->d_id ] );
     }
+
+    public function jsonSerialize() 
+    {    
+         return ["id" => $this->id,
+                 "name" => $this->name,
+                 "d_id" => $this->d_id];
+    }
 }
 
 ?>

@@ -91,18 +91,8 @@ class Connection
                             $this->password, 
                             array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET sql_mode="NO_AUTO_VALUE_ON_ZERO"',
                                   PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION ) );
-    /*
-    זה עבד
-    
-CREATE DATABASE  IF NOT EXISTS `test_heb`  DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
-CREATE table  IF NOT EXISTS `test_heb`.`directors`(
-            id int(11) NOT NULL AUTO_INCREMENT,
-            name varchar(50) NOT NULL,
-            PRIMARY KEY (id)
-            ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 DEFAULT COLLATE utf8_unicode_ci;
-            
-INSERT INTO `directors` (`id`, `name`) VALUES (NULL, 'רמה בורשטין'), (NULL, 'גידי דר')
-    */      $dbh->exec("SET NAMES 'utf8';");
+
+            $dbh->exec("SET NAMES 'utf8';");
             $dbh->exec("CREATE DATABASE  IF NOT EXISTS `$this->dbName`  DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
                     CREATE USER '$this->user'@'localhost' IDENTIFIED BY '$this->password';
                     GRANT ALL ON `$this->dbName`.* TO '$this->user'@'localhost';
@@ -189,6 +179,9 @@ INSERT INTO `directors` (`id`, `name`) VALUES (NULL, 'רמה בורשטין'), (
             $dbh = $this->getDbConnection();
             if($dbh)
             {
+                // this is required to see hebrew 
+                $this->dbConnection->exec("SET NAMES 'utf8'");
+            
                 $statement = $dbh->prepare( $sqlQuery );
                 if($statement)
                 {

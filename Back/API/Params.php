@@ -19,7 +19,7 @@ class Params
     * @returns The value from the GET/POST/PUT/DELETE value, or $default if not set
     */
     
-    public function get($name, $default = null) 
+    public function getParam($name, $default = null) 
     {
         if( isset( $this->params[$name]) ) 
         {
@@ -28,6 +28,11 @@ class Params
         {
             return $default;
         }
+    }
+
+    public function getParams()
+    {
+        return $this->params;
     }
 
     private function _parseParams() 
