@@ -18,7 +18,7 @@ if($sentParams->isEmpty('params'))
 }
 else
 {
-    $params = $sentParams->getParams();
+    $params = $sentParams->getParam('params');
 }
 
 

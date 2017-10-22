@@ -45,7 +45,7 @@ var CRUD = (function()
             data: 
             { 
                 //objectType: getObjType(),
-                params: params//JSON.stringify(params)
+                params: {objectType:"director", params:{name: "john"}}//params//JSON.stringify(params)
             }, 
             success: function(response)
             {
@@ -71,8 +71,8 @@ var CRUD = (function()
             dataType: 'json',
             data: 
             { 
-                objectType: getObjType(),
-                params: JSON.stringify({})
+                //params: {objectType:"director"}
+                objectType:"director"
             },
             success: function(returnedData)
             {

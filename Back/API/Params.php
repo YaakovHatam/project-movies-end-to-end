@@ -32,13 +32,27 @@ class Params
 
     public function isEmpty( $name)
     {
-        return (($this->params[$name]==null)||($this->params[$name]=="{}"));
+        if(isset($this->params[$name]) )
+        {
+            $b = $this->params[$name]==null;
+            $a = $this->params[$name]=="{}";
+            $c =true;
+            if(is_array($this->params[$name]))
+            {
+                $c =(count ($this->params[$name])==0);
+            }
+            return ($a||$b||$c);
+        }
+        return false;
+        
     }
 
     public function unsetParam($name)
     {
         unset($this->params[$name]);
+        $a = $this->params;
     }
+
     public function getParams()
     {
         return $this->params;
@@ -61,7 +75,8 @@ class Params
         } 
         else if( $method == "POST") 
         {
-            $this->params = $_POST;
+            $this->params = $_POST['params'];
+            $this->params = $_REQUEST['params'];
         }
     }
 }

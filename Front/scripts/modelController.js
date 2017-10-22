@@ -5,12 +5,14 @@
 const modelController = (function() 
 {
     var modelDataArr;
+    let jsonStr = [];
+    let inputArr;
     
+
+
     function loadInputs( crudOpt, id=0 )
     {
-        let jsonStr = '{';
-        let inputArr = [];
-        switch( crudOpt )
+         switch( crudOpt )
         {
             case 'create':
              {
@@ -22,9 +24,10 @@ const modelController = (function()
                         //jsonStr += modelDataArr[key].htmlId + ' : "' + $( '#'+modelDataArr[key].htmlId ).val() + '",';
                     }
                 }
-                inputArr['objectType'] = getObjType();
                 
+                inputArr['objectType'] = getObjType();  
                 return inputArr; 
+            //params: {objectType:"director", params:{name: "john"}}
 
                 // for(let key in modelDataArr) 
                 // {
@@ -72,7 +75,7 @@ const modelController = (function()
 
     function getObjType()
     {
-        return crudObjType = $('table').attr('id');
+        return $('table').attr('id');
     }
     
     function get()
