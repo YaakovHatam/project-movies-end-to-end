@@ -1,4 +1,7 @@
 # end-to-end-movies-project
+
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/c6eae77cffa746308b8fbf216fafa34f)](https://www.codacy.com/app/kobieshka/end-to-end-movies-project?utm_source=github.com&utm_medium=referral&utm_content=MichalYosef/end-to-end-movies-project&utm_campaign=badger)
+
 Tech stack: Backend (PHP + MySQL + API) + Frontend (Bootstrap + jQuery + JS + CSS + HTML)
 
 # Welcome to a large scale project called `Movies end to end project`. in this project you will use all the technologies mentioned above and code skills like Design Patterns.
