@@ -1,3 +1,5 @@
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/c6eae77cffa746308b8fbf216fafa34f)](https://www.codacy.com/app/kobieshka/end-to-end-movies-project?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=MichalYosef/end-to-end-movies-project&amp;utm_campaign=Badge_Grade)
+
 # end-to-end-movies-project
 Tech stack: Backend (PHP + MySQL + API) + Frontend (Bootstrap + jQuery + JS + CSS + HTML)
 
